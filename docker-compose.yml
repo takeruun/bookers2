@@ -1,0 +1,13 @@
+version: '3'
+services:
+  bookers1:
+    build: .
+    volumes:
+      - .:/bookers1
+      - bundle:/usr/local/bundle
+    command: ash -c "rm -f /bookers1/tmp/pids/server.pid && rails s -b '0.0.0.0'"
+    ports:
+      - 3000:3000
+
+volumes:
+  bundle:
