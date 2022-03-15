@@ -1,0 +1,17 @@
+<% if book.favorited_by?(user) %>
+  <p>
+    <%= link_to book_favorites_path(book), method: :delete, class: "text-danger" do %>
+      ♥<%= book.favorites.count %>
+    <% end %>
+  </p>
+<% else %>
+  <p>
+    <%= link_to book_favorites_path(book), method: :post, class: "text-primary" do %>
+      ♥<%= book.favorites.count %>
+    <% end %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+
+</script>
