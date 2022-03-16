@@ -6,6 +6,7 @@ class Book < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
+  has_many :page_views, dependent: :destroy
 
   scope :search, -> (search_params) do
     return if search_params.blank?
