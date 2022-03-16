@@ -17,6 +17,28 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  scope :search, -> (search_params) do
+    return if search_params.blank?
+
+    if search_params[:search_type].to_i == 0
+      name_where(search_params[:word])
+    else
+      case search_params[:search_type].to_i
+      when 1 then
+        word = "%#{search_params[:word]}"
+      when 2 then
+        word = "#{search_params[:word]}%"
+      when 3 then
+        word = "%#{search_params[:word]}%"
+      end
+      name_like(word)
+    end
+  end
+
+  scope :name_where, -> (name) { where(name: name) if name.present? }
+
+  scope :name_like, -> (name) { where('name LIKE ?', name) if name.present? }
+
   def get_profile_image
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
   end

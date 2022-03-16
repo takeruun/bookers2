@@ -1,0 +1,13 @@
+<div class='container px-5 px-sm-0'>
+  <div class='d-flex justify-content-center'>
+    <%= render 'search/search_bar' %>
+  </div>
+  <div class='row'>
+    <h2 class='mt-3'><%= @search_model %> seach for "<%= @word %>"</h2>
+    <% if @search_model == 'Book' %>
+      <%= render 'book', books: @books %>
+    <% else %>
+      <%= render 'user', users: @users %>
+    <% end %>
+  </div>
+</div>

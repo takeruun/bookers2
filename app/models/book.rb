@@ -7,6 +7,32 @@ class Book < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
 
+  scope :search, -> (search_params) do
+    return if search_params.blank?
+
+    if search_params[:search_type].to_i == 0
+      title_where(search_params[:word])
+        .body_where(search_params[:word])
+    else
+      case search_params[:search_type].to_i
+      when 1 then
+        word = "%#{search_params[:word]}"
+      when 2 then
+        word = "#{search_params[:word]}%"
+      when 3 then
+        word = "%#{search_params[:word]}%"
+      end
+      title_like(word)
+        .body_like(word)
+    end
+  end
+
+  scope :title_where, -> (title) { where(title: title) if title.present? }
+  scope :body_where, -> (body) { where(body: body) if body.present? }
+
+  scope :title_like, -> (title) { where('title LIKE ?', title) if title.present? }
+  scope :body_like, -> (body) { where('body LIKE ?', body) if body.present? }
+
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
