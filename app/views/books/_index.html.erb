@@ -21,7 +21,10 @@
           <%= render 'favorites/favorite', book: book %>
         </td>
         <td>
-          コメント数: <%= book.book_comments.count %>
+          コメント数: <%= book.book_comments.length %>
+        </td>
+        <td>
+          閲覧数: <%= book.page_views.length %>
         </td>
       </tr>
     <% end %>
