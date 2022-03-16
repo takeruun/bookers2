@@ -1,15 +1,11 @@
 <% if book.favorited_by?(current_user) %>
-  <p>
-    <%= link_to book_favorites_path(book), method: :delete, class: "text-danger" do %>
-      ♥<%= book.favorites.count %>
-    <% end %>
-  </p>
+  <%= form_with mode: book, url: book_favorites_path(book),  method: :delete, local: false do |f| %>
+    <%= f.submit "♥#{ book.favorites.count}", class: "btn text-danger" %>
+  <% end %>
 <% else %>
-  <p>
-    <%= link_to book_favorites_path(book), method: :post, class: "text-primary" do %>
-      ♥<%= book.favorites.count %>
-    <% end %>
-  </p>
+  <%= form_with model: book, url: book_favorites_path(book), method: :post, local: false do |f| %>
+    <%= f.submit "♥#{ book.favorites.count}", class: "btn text-primary" %>
+  <% end %>
 <% end %>
 
 <script type="text/javascript">
