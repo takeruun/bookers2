@@ -36,4 +36,10 @@ class Book < ApplicationRecord
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
+
+  class << self
+    def ranking_by_favorites
+      Book.left_joins(:favorites).where("IFNULL(favorites.created_at, '#{Time.current}') > ?", Time.current.ago(2.days)).group("books.id").order('count(favorites.id) desc')
+    end
+  end
 end
