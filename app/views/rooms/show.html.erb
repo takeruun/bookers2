@@ -1,0 +1,17 @@
+<div class='container px-5 px-sm-0'>
+  <h2><%= @user.name %>さんとのチャット</h2>
+  <div class='row'>
+    <div class='col-sm-4'>
+      <% @messages.each do |message| %>
+        <% if message.user.id == current_user.id %>
+          <p class='d-flex justify-content-end'><%= message.message %></p>
+        <% else %>
+          <p class='d-flex justify-content-start'><%= message.message %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= form_with model: @message, url: "/#{@room.id}/message" do |f| %>
+  <%= f.text_field :message %>
+  <% end %>
+</div>
