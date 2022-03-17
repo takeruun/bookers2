@@ -55,6 +55,92 @@
           </tr>
         </tbody>
       </table>
+      <h3>7日間分の投稿数</h3>
+      <table class='table table-bordered'>
+        <thead>
+          <% books_data = current_user.this_week_number_of_books_per_day %>
+          <tr>
+            <% [*1..books_data.length].each do |i| %>
+              <td>
+                <% if i == books_data.length %>
+                  今日
+                <% else %>
+                  <%= books_data.length - i %>日前
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% books_data.each do |d| %>
+              <td>
+                <%= d %>
+              </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+      <div class="py-4">
+        <p class="text-center font-weight-bold">
+          ７日間分の投稿数の比較
+        </p>
+        <canvas id="number-of-books-chart" width="100%"></canvas>
+      </div>
+      <div class="py-4">
+        <%= form_with url: search_number_of_books_path,  method: :get, local: false do |f| %>
+          <%= f.date_field :date %>
+          <%= f.submit "検索", class: 'btn btn-primary' %>
+        <% end %>
+        <h4>検索結果</h4>
+        <table class='table table-bordered'>
+          <thead>
+            <tr>
+              <td>検索数</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="search-number-of-books">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </div>
 </div>
+
+<script>
+  $(document).on('turbolinks:load', function () {
+    const ctx = document.getElementById("number-of-books-chart").getContext("2d");
+    const books_data = <%= books_data %>;
+    const labels = books_data.map(function (b, i) { 
+      if (books_data.length === (i+1)) {
+        return '今日';
+      }
+      return `${books_data.length - (i+1)}日前`;
+    });
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '投稿した本の数',
+          data: books_data,
+          backgroundColor: 'white',
+          borderColor: 'rgba(255, 80, 120, 1.0)',
+          tension: 0.4
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            min: 0,
+            max: 10,
+          }
+        }
+      }
+    });
+  });
+</script>
