@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
   resources :groups do
     resource :group_users, only: [:create, :destroy]
+    resource :event_mails, only: [:new, :create]
   end
 
   get "/search_number_of_books" => "users#search_number_of_books"

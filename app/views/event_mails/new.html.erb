@@ -1,0 +1,21 @@
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      <h2>Evnet Mail</h2>
+      <%= form_with model: [@group, @event_mail], local:true do |f| %>
+        <%= render 'layouts/errors', obj: @event_mail %>
+        <div class="form-group">
+          <%= f.label :title, 'Title' %>
+          <%= f.text_field :title, class: "form-control titile" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :content, 'Content' %>
+          <%= f.text_area :content, class: "form-control content" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit '送信', class: 'btn btn-success' %>
+        </div>
+      <% end %> 
+    </div>
+  </div>
+</div>
