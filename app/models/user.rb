@@ -20,6 +20,15 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  ATTR_ACCESSOR = [
+    :today_number_of_books,
+    :yesterday_number_of_books,
+    :this_week_number_of_books,
+    :previous_week_number_of_books,
+  ]
+
+  attr_accessor *ATTR_ACCESSOR
+
   scope :search, -> (search_params) do
     return if search_params.blank?
 
@@ -48,5 +57,43 @@ class User < ApplicationRecord
 
   def follow?(user)
     followed_relationships.where(followed_id: user.id).present?
+  end
+
+  def get_today_number_of_books
+    self.today_number_of_books = books.where("created_at >= ?", Date.today).length
+  end
+
+  def get_yesterday_number_of_books
+    self.yesterday_number_of_books = books.where("created_at between ? and ?", Date.today - 1.days,Date.today).length
+  end
+
+  def get_compared_to_previous_day
+    today_number_of_books = self.today_number_of_books || get_today_number_of_books
+    yesterday_number_of_books = self.yesterday_number_of_books || get_yesterday_number_of_books
+
+    if yesterday_number_of_books == 0
+      return nil
+    end
+
+    self.today_number_of_books  / self.yesterday_number_of_books * 100
+  end
+
+  def get_this_week_number_of_books
+    self.this_week_number_of_books = books.where("created_at between ? and ?", Date.today - 6.days,Date.today).length
+  end
+
+  def get_previous_week_number_of_books
+    self.previous_week_number_of_books = books.where("created_at between ? and ?", Date.today - 13.days, Date.today - 7.days).length
+  end
+
+  def get_compared_to_previous_week
+    this_week_number_of_books = self.this_week_number_of_books || get_this_week_number_of_books
+    previous_week_number_of_books = self.previous_week_number_of_books || get_previous_week_number_of_books
+
+    if previous_week_number_of_books == 0
+      return nil
+    end
+
+    self.this_week_number_of_books / self.previous_week_number_of_books * 100
   end
 end
