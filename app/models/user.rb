@@ -17,7 +17,9 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :room_users, dependent: :destroy
   has_many :rooms, through: :room_users, source: :room
-  has_many :groups, dependent: :destroy
+  has_many :owner_groups, dependent: :destroy, class_name: 'Group', foreign_key: 'owner_id'
+  has_many :group_users, dependent: :destroy
+  has_many :my_groups, through: :group_users, source: :group
 
   has_one_attached :profile_image
 
@@ -58,6 +60,10 @@ class User < ApplicationRecord
 
   def follow?(user)
     followed_relationships.where(followed_id: user.id).present?
+  end
+
+  def join_group?(group)
+    my_groups.include?(group)
   end
 
   def get_today_number_of_books
