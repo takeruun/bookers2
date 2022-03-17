@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'messages/create'
-  get 'rooms/show'
   get 'search/search'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
@@ -18,6 +16,7 @@ Rails.application.routes.draw do
     resource :relationships, only: [:create, :destroy]
     resource :rooms, only: [:show]
   end
+  resources :groups
   get "/search_number_of_books" => "users#search_number_of_books"
   post ":room_id/message" => "messages#create"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
