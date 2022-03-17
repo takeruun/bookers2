@@ -29,7 +29,8 @@
           </td>
           <td>
             <% if @group.owner_id == current_user.id %>
-                <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success edit_group_#{@group.id}" %>
+                <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success" %>
+                <%= link_to 'Notice an Evnet', new_group_event_mails_path(@group), class: "btn btn-sm btn-info" %>
               <% else %>
                 <% if current_user.join_group?(@group) %>
                   <%= link_to 'Left this group', group_group_users_path(@group), class: "btn btn-danger", method: :delete %>
