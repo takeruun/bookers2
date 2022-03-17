@@ -57,7 +57,7 @@
       </table>
       <h3>7日間分の投稿数</h3>
       <table class='table table-bordered'>
-      <thead>
+        <thead>
           <% books_data = current_user.this_week_number_of_books_per_day %>
           <tr>
             <% [*1..books_data.length].each do |i| %>
@@ -81,12 +81,32 @@
           </tr>
         </tbody>
       </table>
-      <div>
+      <div class="py-4">
         <p class="text-center font-weight-bold">
           ７日間分の投稿数の比較
         </p>
         <canvas id="number-of-books-chart" width="100%"></canvas>
       </div>
+      <div class="py-4">
+        <%= form_with url: search_number_of_books_path,  method: :get, local: false do |f| %>
+          <%= f.date_field :date %>
+          <%= f.submit "検索", class: 'btn btn-primary' %>
+        <% end %>
+        <h4>検索結果</h4>
+        <table class='table table-bordered'>
+          <thead>
+            <tr>
+              <td>検索数</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="search-number-of-books">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </div>
 </div>
