@@ -10,6 +10,51 @@
       <%= render 'search/search_bar' %>
       <h2>Books</h2>
       <%= render 'index', books: @books %>
+      <h3>投稿数の前日比・前周比</h3>
+      <table class='table table-bordered'>
+        <thead>
+          <tr>
+            <th>今日の投稿数</th>
+            <th>前日の投稿数</th>
+            <th>前日比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= current_user.get_today_number_of_books %></td>
+            <td><%= current_user.get_yesterday_number_of_books %></td>
+            <td>
+              <% if current_user.get_compared_to_previous_day.present? %>
+                <%= current_user.get_compared_to_previous_day %>%
+              <% else %>
+                データ無し
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class='table table-bordered'>
+        <thead>
+          <tr>
+            <th>今週の投稿数</th>
+            <th>前週の投稿数</th>
+            <th>前週比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= current_user.get_this_week_number_of_books %></td>
+            <td><%= current_user.get_previous_week_number_of_books %></td>
+            <td>
+              <% if current_user.get_compared_to_previous_week.present? %>
+                <%= current_user.get_compared_to_previous_week %>%
+              <% else %>
+                データ無し
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
