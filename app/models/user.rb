@@ -103,6 +103,6 @@ class User < ApplicationRecord
       data[i] = books.where(created_at: i.day.ago.all_day).length
     end
 
-    data
+    data.reverse
   end
 end
