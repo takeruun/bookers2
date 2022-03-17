@@ -8,6 +8,10 @@ services:
     command: ash -c "rm -f /bookers1/tmp/pids/server.pid && rails s -b '0.0.0.0'"
     ports:
       - 3000:3000
-
+  mail:
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080
+      - 1025:1025
 volumes:
   bundle:
