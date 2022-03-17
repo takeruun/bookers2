@@ -9,14 +9,34 @@
     <div class='col-md-8 offset-md-1'>
       <h2>Group Details</h2>
       <table class='table'>
+        <thead>
+          <tr>
+            <td></td>
+            <td>グループ名</td>
+            <td>紹介文</td>
+            <td>メンバー</td>
+            <td></td>
+          </tr>
+        </thead>
         <tr>
           <td><%= image_tag @group.get_image, size: '50x50' %></td>
           <td><%= @group.name %></td>
           <td><%= @group.introduction %></td>
           <td>
+            <% @group.members_name.each do |name| %>
+              <%= name %><br/>
+            <% end %>
+          </td>
+          <td>
             <% if @group.owner_id == current_user.id %>
-              <td><%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success edit_group_#{@group.id}" %></td>
-              <% end %>
+                <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success edit_group_#{@group.id}" %>
+              <% else %>
+                <% if current_user.join_group?(@group) %>
+                  <%= link_to 'Left this group', group_group_users_path(@group), class: "btn btn-danger", method: :delete %>
+                <% else %>
+                  <%= link_to 'Join this group', group_group_users_path(@group), class: "btn btn-success", method: :post %>
+                <% end %>
+            <% end %>
           </td>
         </tr>
       </table>
