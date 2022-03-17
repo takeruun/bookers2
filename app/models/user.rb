@@ -96,4 +96,13 @@ class User < ApplicationRecord
 
     self.this_week_number_of_books / self.previous_week_number_of_books * 100
   end
+
+  def this_week_number_of_books_per_day
+    data = []
+    [*0..6].each do |i|
+      data[i] = books.where(created_at: i.day.ago.all_day).length
+    end
+
+    data
+  end
 end
