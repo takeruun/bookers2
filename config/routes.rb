@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
   end
+  get "/order_books" => "books#order_by"
   resources :users, only: [:index,:show,:edit,:update] do
     get "/follow" => "users#follow"
     get "/follower" => "users#follower"

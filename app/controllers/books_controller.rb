@@ -45,6 +45,23 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
+  def order_by
+    order_by = params[:order_by]
+
+    @books =
+      case order_by
+        when "new_date" then
+          Book.all.order('created_at desc')
+        when "heighest_rate" then
+          Book.all.order('rate desc')
+        end
+
+    @book = Book.new
+
+
+    render :index
+  end
+
   private
 
   def book_params

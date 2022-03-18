@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2022_03_17_230247) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "rate"
+    t.float "rate", default: 0.0
   end
 
   create_table "event_mails", force: :cascade do |t|

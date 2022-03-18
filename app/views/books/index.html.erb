@@ -9,6 +9,8 @@
     <div class='col-md-8 offset-md-1'>
       <%= render 'search/search_bar' %>
       <h2>Books</h2>
+      <%= link_to '新しい順', order_books_path(order_by: 'new_date') %>|
+      <%= link_to '評価の高い順', order_books_path(order_by: 'heighest_rate') %>
       <%= render 'index', books: @books %>
       <h3>投稿数の前日比・前周比</h3>
       <table class='table table-bordered'>
