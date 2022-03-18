@@ -12,6 +12,12 @@
     <%= f.label :rate,'Rate' %>
     <%= f.hidden_field :rate, id: :review_star %>
   </div>
+  <%= f.fields_for :category do |c_f| %>
+    <div class="form-group">
+      <%= c_f.label :name, 'Category' %>
+      <%= c_f.text_field :name, class: 'form-control book_category' %>
+    </div>
+  <% end %>
   <div class="form-group">
     <%= f.submit class: 'btn btn-success' %>
   </div>

@@ -16,8 +16,15 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
+    category = Category.find_by(name: book_params[:category][:name])
+    if category.nil?
+      category = Category.create(book_params[:category])
+    end
+
+    @book = Book.new(book_params.except(:category))
+    @book.category_id = category.id
     @book.user_id = current_user.id
+
     if @book.save
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
@@ -58,6 +65,15 @@ class BooksController < ApplicationController
 
     @book = Book.new
 
+    render :index
+  end
+
+  def search
+    case search_params[:search_type]
+    when 'category' then
+      @books = Book.joins(:category).where('categories.name = ?', search_params[:word])
+    end
+    @book = Book.new
 
     render :index
   end
@@ -65,7 +81,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :rate)
+    params.require(:book).permit(:title, :body, :rate, category: [:name])
   end
 
   def ensure_correct_user
@@ -73,5 +89,9 @@ class BooksController < ApplicationController
     unless user == current_user
       redirect_to user_path(current_user)
     end
+  end
+
+  def search_params
+    params.fetch(:search, {}).permit(:search_type, :word)
   end
 end

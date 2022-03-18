@@ -6,11 +6,13 @@ Rails.application.routes.draw do
   get "home/about"=>"homes#about"
 
   devise_for :users
-  resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
+  get "/books/search" => "books#search"
+  get "/books/order_by" => "books#order_by"
+  resources :books do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
   end
-  get "/order_books" => "books#order_by"
+
   resources :users, only: [:index,:show,:edit,:update] do
     get "/follow" => "users#follow"
     get "/follower" => "users#follower"
