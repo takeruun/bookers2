@@ -112,8 +112,16 @@
 </div>
 
 <script>
+  var chart;
   $(document).on('turbolinks:load', function () {
+    if (!document.getElementById("number-of-books-chart")) {
+      return
+    }
+
     const ctx = document.getElementById("number-of-books-chart").getContext("2d");
+    if(chart){
+      chart.destroy();
+    }
     const books_data = <%= books_data %>;
     const labels = books_data.map(function (b, i) { 
       if (books_data.length === (i+1)) {
@@ -121,7 +129,7 @@
       }
       return `${books_data.length - (i+1)}日前`;
     });
-    const chart = new Chart(ctx, {
+    chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,

@@ -4,7 +4,7 @@
       <th></th>
       <th>Title</th>
       <th>Opinion</th>
-      <th colspan="3"></th>
+      <th colspan="4"></th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +25,23 @@
         </td>
         <td>
           閲覧数: <%= book.page_views.length %>
+        </td>
+        <td>
+          <span id="rate-<%= book.id %>"></span>
+          <script>
+            $(document).on('turbolinks:load', function () {
+              $('#rate-<%= book.id %>').empty();
+              $('#rate-<%= book.id %>').raty({
+                size     : 36,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn : '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                readOnly: true,
+                half: true,
+                score: <%= book.rate || 0 %>
+              });
+            });
+          </script>
         </td>
       </tr>
     <% end %>
